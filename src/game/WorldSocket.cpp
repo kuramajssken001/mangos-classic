@@ -60,7 +60,7 @@ WorldSocket::WorldSocket(boost::asio::io_service &service, std::function<void (S
 
 WorldSocket::~WorldSocket()
 {
-    delete m_session;
+    //delete m_session;
 }
 
 void WorldSocket::SendPacket(const WorldPacket& pct, bool immediate)
