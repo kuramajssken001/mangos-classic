@@ -273,7 +273,18 @@ void WorldSession::HandleMessagechatOpcode(WorldPacket& recv_data)
         {
             std::string msg;
             recv_data >> msg;
-
+			Player *pPlayer = GetPlayer();
+			if (sWorld.getConfig(CONFIG_BOOL_WORLD_CHAT_ON))
+			{
+				if (msg == "")
+					return;
+				if (!pPlayer)
+					return;
+				if (pPlayer->HasItemCount(90001, 1))
+					sWorld.SendWorldText(20004, GetPlayerName(), msg.c_str());
+				pPlayer->DestroyItemCount(90001, 1, true);
+				return;
+			}
             if (msg.empty())
                 break;
 
