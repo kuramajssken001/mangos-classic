@@ -310,7 +310,10 @@ void WorldSession::HandleAuctionSellItem(WorldPacket& recv_data)
     pl->ModifyMoney(-int32(deposit));
 
     AuctionEntry* AH = auctionHouse->AddAuction(auctionHouseEntry, it, etime, bid, buyout, deposit, pl);
-
+	if (sWorld.getConfig(CONFIG_BOOL_WORLD_AH_ON))
+	{
+		sWorld.SendWorldText(20002, GetPlayerName(), it->GetProto()->Name1, it->GetCount(), int32(buyout / 10000));
+	}
     DETAIL_LOG("selling %s to auctioneer %s with initial bid %u with buyout %u and with time %u (in sec) in auctionhouse %u",
                itemGuid.GetString().c_str(), auctioneerGuid.GetString().c_str(), bid, buyout, etime, auctionHouseEntry->houseId);
 
