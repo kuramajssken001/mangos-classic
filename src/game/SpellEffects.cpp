@@ -1524,6 +1524,11 @@ void Spell::EffectApplyAura(SpellEffectIndex eff_idx)
     if (!unitTarget)
         return;
 
+	if (m_spellInfo->Id == 30918)    
+	{
+			unitTarget->RemoveAurasAtMechanicImmunity(IMMUNE_TO_ROOT_AND_SNARE_MASK, 30918, true);
+		return;
+	}
     // ghost spell check, allow apply any auras at player loading in ghost mode (will be cleanup after load)
     if ((!unitTarget->isAlive() && !(IsDeathOnlySpell(m_spellInfo) || IsDeathPersistentSpell(m_spellInfo))) &&
             (unitTarget->GetTypeId() != TYPEID_PLAYER || !((Player*)unitTarget)->GetSession()->PlayerLoading()))
