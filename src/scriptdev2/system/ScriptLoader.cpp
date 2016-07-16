@@ -8,6 +8,7 @@
 extern void AddSC_battleground();
 
 // custom
+extern void AddSC_Item_Level();
 
 // examples
 extern void AddSC_example_creature();
@@ -208,6 +209,7 @@ void AddScripts()
     AddSC_battleground();
 
     // custom
+	AddSC_Item_Level();
 
     // examples
     AddSC_example_creature();
