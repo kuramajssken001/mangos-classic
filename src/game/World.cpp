@@ -676,6 +676,7 @@ void World::LoadConfigSettings(bool reload)
 	setConfig(CONFIG_BOOL_WORLD_LOGN_ON, "World.Logn.On", false);
 	setConfig(CONFIG_BOOL_WORLD_AH_ON, "World.AH.On", false);
 	setConfig(CONFIG_BOOL_WORLD_PVP_ON, "World.PVP.On", false);
+	setConfig(CONFIG_BOLL_INSTANT_TAXI, "InstantFlightPaths", false);
 
     setConfig(CONFIG_BOOL_PET_UNSUMMON_AT_MOUNT,      "PetUnsummonAtMount", false);
 

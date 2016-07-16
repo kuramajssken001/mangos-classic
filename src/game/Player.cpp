@@ -16040,11 +16040,29 @@ bool Player::ActivateTaxiPathTo(std::vector<uint32> const& nodes, Creature* npc 
 
     // prevent stealth flight
     RemoveSpellsCausingAura(SPELL_AURA_MOD_STEALTH);
+	if (sWorld.getConfig(CONFIG_BOLL_INSTANT_TAXI))
+	{
+		if (!m_session->GetPlayer()->HasItemCount(90002, 1))
+		{
+			GetSession()->SendActivateTaxiReply(ERR_TAXIOK);
+			GetSession()->SendDoFlight(mount_display_id, sourcepath);
+		}
+		else
+		{
+			TaxiNodesEntry const* lastnode = sTaxiNodesStore.LookupEntry(nodes[nodes.size() - 1]);
+			m_taxi.ClearTaxiDestinations();
+			TeleportTo(lastnode->map_id, lastnode->x, lastnode->y, lastnode->z, GetOrientation());
+			m_session->GetPlayer()->DestroyItemCount(90002, 1, true);
+			return false;
+		}
+	}
+	else
+	{
+		GetSession()->SendActivateTaxiReply(ERR_TAXIOK);
+		GetSession()->SendDoFlight(mount_display_id, sourcepath);
+	}
 
-    GetSession()->SendActivateTaxiReply(ERR_TAXIOK);
-    GetSession()->SendDoFlight(mount_display_id, sourcepath);
-
-    return true;
+	return true;
 }
 
 bool Player::ActivateTaxiPathTo(uint32 taxi_path_id, uint32 spellid /*= 0*/)
