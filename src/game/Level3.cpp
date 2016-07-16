@@ -4666,6 +4666,38 @@ bool ChatHandler::HandleServerRestartCommand(char* args)
     return true;
 }
 
+bool ChatHandler::HandleModifyJfCommand(char * args)//积分函数体
+{
+	if (!*args)
+		return false;
+	Player *target = getSelectedPlayer();
+	if (!target)
+	{
+		SendSysMessage(LANG_PLAYER_NOT_FOUND);
+		return true;
+	}
+
+	uint32 guid = 0;
+	if (target)
+	{
+		guid = target->GetSession()->GetAccountId();
+	}
+
+	uint32 amount = (uint32)atoi(args);
+	if (amount < 0 || amount > 999999)
+	{
+		SendSysMessage(LANG_BAD_VALUE);
+		return true;
+	}
+
+	LoginDatabase.PExecute("UPDATE `account` SET `jf` = '%u' WHERE `id` = '%u'", amount + getSelectedPlayer()->Getjifen(), guid);
+	LoginDatabase.CommitTransaction();
+
+	PSendSysMessage(LANG_COMMAND_MODIFY_JF, target->GetName(), amount);
+
+	return true;
+}
+
 bool ChatHandler::HandleServerIdleRestartCommand(char* args)
 {
     uint32 delay;

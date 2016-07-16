@@ -334,6 +334,7 @@ class MANGOS_DLL_SPEC ChatHandler
         bool HandleModifyHonorCommand(char* args);
         bool HandleModifyRepCommand(char* args);
         bool HandleModifyGenderCommand(char* args);
+		bool HandleModifyJfCommand(char* args);
 
         //-----------------------Npc Commands-----------------------
         bool HandleNpcAddCommand(char* args);

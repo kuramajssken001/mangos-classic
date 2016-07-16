@@ -250,6 +250,7 @@ bool WorldSocket::HandleAuthSession(WorldPacket &recvPacket)
     std::string account;
     Sha1Hash sha1;
     BigNumber v, s, g, N, K;
+	uint32 jf;
     WorldPacket packet, SendAddonPacked;
 
     // Read the content of the packet
@@ -291,7 +292,8 @@ bool WorldSocket::HandleAuthSession(WorldPacket &recvPacket)
                              "v, "                       //5
                              "s, "                       //6
                              "mutetime, "                //7
-                             "locale "                   //8
+                             "locale, "                   //8
+							 "jf "                       //9
                              "FROM account "
                              "WHERE username = '%s'",
                              safe_account.c_str());
@@ -356,6 +358,7 @@ bool WorldSocket::HandleAuthSession(WorldPacket &recvPacket)
         locale = LOCALE_enUS;
     else
         locale = LocaleConstant(tempLoc);
+	jf = fields[9].GetUInt32();
 
     delete result;
 
