@@ -3636,8 +3636,8 @@ void Spell::EffectScriptEffect(SpellEffectIndex eff_idx)
                     // Removes snares and roots.
                     unitTarget->RemoveAurasAtMechanicImmunity(IMMUNE_TO_ROOT_AND_SNARE_MASK, 30918, true);
                     break;
-                }
-            }*/
+                */
+            }
             break;
         }
         case SPELLFAMILY_WARLOCK:
