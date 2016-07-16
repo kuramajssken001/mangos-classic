@@ -3628,7 +3628,7 @@ void Spell::EffectScriptEffect(SpellEffectIndex eff_idx)
                     unitTarget->CastSpell(unitTarget, 28561, true, nullptr, nullptr, m_caster->GetObjectGuid());
                     return;
                 }
-                case 30918:                                 // Improved Sprint
+                /*case 30918:                                 // Improved Sprint
                 {
                     if (!unitTarget)
                         return;
@@ -3637,7 +3637,7 @@ void Spell::EffectScriptEffect(SpellEffectIndex eff_idx)
                     unitTarget->RemoveAurasAtMechanicImmunity(IMMUNE_TO_ROOT_AND_SNARE_MASK, 30918, true);
                     break;
                 }
-            }
+            }*/
             break;
         }
         case SPELLFAMILY_WARLOCK:
