@@ -3478,7 +3478,7 @@ void Aura::HandleAuraModIncreaseHealth(bool apply, bool Real)
         // no break here
 
         // Cases where m_amount already has the correct value (spells cast with CastCustomSpell or absolute values)
-        case 12976:                                         // Warrior Last Stand triggered spell (Cast with percentage-value by CastCustomSpell)
+       /* case 12976:                                         // Warrior Last Stand triggered spell (Cast with percentage-value by CastCustomSpell)
         {
             if (Real)
             {
@@ -3497,7 +3497,7 @@ void Aura::HandleAuraModIncreaseHealth(bool apply, bool Real)
                 }
             }
             return;
-        }
+        }*/
         // Case with temp increase health, where total percentage is kept
         case 1178:                                          // Bear Form (Passive)
         case 9635:                                          // Dire Bear Form (Passive)
