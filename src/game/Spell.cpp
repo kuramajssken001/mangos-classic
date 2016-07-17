@@ -3689,7 +3689,6 @@ void Spell::TakePower()
 
     Powers powerType = Powers(m_spellInfo->powerType);
 
-    m_caster->ModifyPower(powerType, -(int32)m_powerCost);
 	bool hit = true;
 	if (m_caster->GetTypeId() == TYPEID_PLAYER)
 	{
