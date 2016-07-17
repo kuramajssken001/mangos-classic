@@ -3365,7 +3365,7 @@ bool Unit::AddSpellAuraHolder(SpellAuraHolder* holder)
                 switch (aurNameReal)
                 {
                     // DoT/HoT/etc
-                    case SPELL_AURA_DUMMY:                  // allow stack (HoTs checked later)
+                    //case SPELL_AURA_DUMMY:                  // allow stack (HoTs checked later)
                     case SPELL_AURA_PERIODIC_DAMAGE:
                     case SPELL_AURA_PERIODIC_DAMAGE_PERCENT:
                     case SPELL_AURA_PERIODIC_LEECH:
