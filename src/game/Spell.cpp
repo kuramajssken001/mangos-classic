@@ -5091,6 +5091,8 @@ SpellCastResult Spell::CheckPetCast(Unit* target)
         return SPELL_FAILED_SPELL_IN_PROGRESS;
     if (m_caster->isInCombat() && IsNonCombatSpell(m_spellInfo))
         return SPELL_FAILED_AFFECTING_COMBAT;
+	if (!target)
+		return SPELL_CAST_OK;
 
     if (m_caster->GetTypeId() == TYPEID_UNIT && (((Creature*)m_caster)->IsPet() || m_caster->isCharmed()))
     {
