@@ -339,7 +339,7 @@ bool IsPassiveSpell(uint32 spellId)
 
 bool IsPassiveSpell(SpellEntry const* spellInfo)
 {
-    return spellInfo->HasAttribute(SPELL_ATTR_PASSIVE);
+	return spellInfo->HasAttribute(SPELL_ATTR_PASSIVE_UNK7);
 }
 
 bool IsNoStackAuraDueToAura(uint32 spellId_1, uint32 spellId_2)
