@@ -216,6 +216,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\MaNGOS_Server_R20\src\modules\SD2\scripts\custom\Item_Level.cpp" />
+    <ClCompile Include="..\..\..\..\..\MaNGOS_Server_R20\src\modules\SD2\scripts\custom\Item_talent.cpp" />
+    <ClCompile Include="..\..\..\..\..\MaNGOS_Server_R20\src\modules\SD2\scripts\custom\Tool_npc.cpp" />
     <ClCompile Include="..\..\src\scriptdev2\base\escort_ai.cpp" />
     <ClCompile Include="..\..\src\scriptdev2\base\follower_ai.cpp" />
     <ClCompile Include="..\..\src\scriptdev2\base\guard_ai.cpp" />
