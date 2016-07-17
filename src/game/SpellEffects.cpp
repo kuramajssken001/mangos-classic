@@ -3152,13 +3152,30 @@ void Spell::EffectWeaponDmg(SpellEffectIndex eff_idx)
             }
             break;
         }
-        case SPELLFAMILY_PALADIN:
+		case SPELLFAMILY_GENERIC:
         {
-            // Seal of Command - receive benefit from Spell Damage and Healing
-            if (m_spellInfo->SpellFamilyFlags & uint64(0x00000002000000))
+			Unit* m_caster = GetCaster();
+			if (m_spellInfo->Id == 20424)
             {
                 spell_bonus += int32(0.20f * m_caster->SpellBaseDamageBonusDone(GetSpellSchoolMask(m_spellInfo)));
-                spell_bonus += int32(0.29f * unitTarget->SpellBaseDamageBonusTaken(GetSpellSchoolMask(m_spellInfo)));
+
+				if (m_caster->HasAura(20218))
+					totalDamagePercentMod *= 1.10f;
+
+				if (m_caster->HasAura(20050))
+					totalDamagePercentMod *= 1.03f;
+
+				if (m_caster->HasAura(20052))
+					totalDamagePercentMod *= 1.06f;
+
+				if (m_caster->HasAura(20053))
+					totalDamagePercentMod *= 1.09f;
+
+				if (m_caster->HasAura(20054))
+					totalDamagePercentMod *= 1.12f;
+
+				if (m_caster->HasAura(20055))
+					totalDamagePercentMod *= 1.15f;
             }
             break;
         }
