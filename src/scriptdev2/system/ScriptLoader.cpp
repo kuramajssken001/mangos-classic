@@ -10,6 +10,7 @@ extern void AddSC_battleground();
 // custom
 extern void AddSC_Item_Level();
 extern void AddSC_Item_Talent();
+extern void AddSC_npc_custom_box();
 
 // examples
 extern void AddSC_example_creature();
@@ -212,6 +213,7 @@ void AddScripts()
     // custom
 	AddSC_Item_Level();
 	AddSC_Item_Talent();
+	AddSC_npc_custom_box();
 
     // examples
     AddSC_example_creature();

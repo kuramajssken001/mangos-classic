@@ -375,7 +375,23 @@ void Spell::EffectSchoolDMG(SpellEffectIndex effect_idx)
             case SPELLFAMILY_PALADIN:
                 break;
         }
-
+		if (m_spellInfo->SpellIconID == 561)
+		{
+			damage += int32(0.43f * m_caster->SpellBaseDamageBonusDone(GetSpellSchoolMask(m_spellInfo)));
+			damage += int32(0.20f * unitTarget->SpellBaseDamageBonusTaken(GetSpellSchoolMask(m_spellInfo)));
+			if (m_caster->HasAura(20218))
+				damage *= 1.10f;
+			if (m_caster->HasAura(20050))
+				damage *= 1.03f;
+			if (m_caster->HasAura(20052))
+				damage *= 1.06f;
+			if (m_caster->HasAura(20053))
+				damage *= 1.09f;
+			if (m_caster->HasAura(20054))
+				damage *= 1.12f;
+			if (m_caster->HasAura(20055))
+				damage *= 1.15f;
+		}
         if (damage >= 0)
             m_damage += damage;
     }
