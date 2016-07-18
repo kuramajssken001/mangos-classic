@@ -292,39 +292,40 @@ void PetAI::UpdateAI(const uint32 diff)
         }
 
         // found units to cast on to
-        if (!targetSpellStore.empty())
-        {
-            uint32 index = urand(0, targetSpellStore.size() - 1);
+		if (!targetSpellStore.empty())
+		{
+			uint32 index = urand(0, targetSpellStore.size() - 1);
 
-            Spell* spell  = targetSpellStore[index].second;
-            Unit*  target = targetSpellStore[index].first;
+			Spell* spell = targetSpellStore[index].second;
+			Unit*  target = targetSpellStore[index].first;
 
-            targetSpellStore.erase(targetSpellStore.begin() + index);
+			targetSpellStore.erase(targetSpellStore.begin() + index);
 
-            SpellCastTargets targets;
-            targets.setUnitTarget(target);
+			SpellCastTargets targets;
+			targets.setUnitTarget(target);
 
-            if (!m_creature->HasInArc(M_PI_F, target))
-            {
-                m_creature->SetInFront(target);
-                if (target->GetTypeId() == TYPEID_PLAYER)
-                    m_creature->SendCreateUpdateToPlayer((Player*)target);
+			if (!m_creature->HasInArc(M_PI_F, target))
+			{
+				m_creature->SetInFront(target);
+				if (target->GetTypeId() == TYPEID_PLAYER)
+					m_creature->SendCreateUpdateToPlayer((Player*)target);
 
-                if (owner && owner->GetTypeId() == TYPEID_PLAYER)
-                    m_creature->SendCreateUpdateToPlayer((Player*)owner);
-            }
+				if (owner && owner->GetTypeId() == TYPEID_PLAYER)
+					m_creature->SendCreateUpdateToPlayer((Player*)owner);
+			}
 
-            m_creature->AddCreatureSpellCooldown(spell->m_spellInfo->Id);
-            if (m_creature->IsPet())
-                ((Pet*)m_creature)->CheckLearning(spell->m_spellInfo->Id);
+			m_creature->AddCreatureSpellCooldown(spell->m_spellInfo->Id);
+			if (m_creature->IsPet())
+				((Pet*)m_creature)->CheckLearning(spell->m_spellInfo->Id);
 
-            m_creature->RemoveSpellsCausingAura(SPELL_AURA_MOD_STEALTH);
-            spell->SpellStart(&targets);
-        }
+			m_creature->RemoveSpellsCausingAura(SPELL_AURA_MOD_STEALTH);
+			spell->SpellStart(&targets);
 
-        // deleted cached Spell objects
-        for (TargetSpellList::const_iterator itr = targetSpellStore.begin(); itr != targetSpellStore.end(); ++itr)
-            delete itr->second;
+
+			// deleted cached Spell objects
+			for (TargetSpellList::const_iterator itr = targetSpellStore.begin(); itr != targetSpellStore.end(); ++itr)
+				delete itr->second;
+		}
     }
     else if (m_creature->hasUnitState(UNIT_STAT_FOLLOW_MOVE))
         m_creature->InterruptNonMeleeSpells(false);
