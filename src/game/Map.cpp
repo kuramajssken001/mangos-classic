@@ -551,7 +551,8 @@ void Map::Update(const uint32& t_diff)
     }
 
     // Send world objects and item update field changes
-    SendObjectUpdates();
+	if (HavePlayers())
+		SendObjectUpdates();
 
     // Don't unload grids if it's battleground, since we may have manually added GOs,creatures, those doesn't load from DB at grid re-load !
     // This isn't really bother us, since as soon as we have instanced BG-s, the whole map unloads as the BG gets ended
