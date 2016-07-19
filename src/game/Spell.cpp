@@ -2527,6 +2527,25 @@ void Spell::SpellStart(SpellCastTargets const* targets, Aura* triggeredByAura)
     SpellEvent* Event = new SpellEvent(this);
     m_caster->m_Events.AddEvent(Event, m_caster->m_Events.CalculateTime(1));
 
+	//数据库中禁止某个技能
+	if (m_caster->GetTypeId() == TYPEID_PLAYER || (m_caster->GetTypeId() == TYPEID_UNIT && ((Creature*)m_caster)->IsPet()))
+	{
+		if (sObjectMgr.IsPlayerSpellDisabled(m_spellInfo->Id))
+		{
+			SendCastResult(SPELL_FAILED_SPELL_UNAVAILABLE);
+			finish(false);
+			return;
+		}
+	}
+	else
+	{
+		if (sObjectMgr.IsCreatureSpellDisabled(m_spellInfo->Id))
+		{
+			finish(false);
+			return;
+		}
+	}
+
     // Fill cost data
     m_powerCost = CalculatePowerCost(m_spellInfo, m_caster, this, m_CastItem);
 

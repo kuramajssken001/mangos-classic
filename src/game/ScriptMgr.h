@@ -467,6 +467,12 @@ struct ScriptInfo
     }
 };
 
+enum SpellDisableTypes  //数据库中禁止某个技能
+{
+	SPELL_DISABLE_PLAYER = 1,
+	SPELL_DISABLE_CREATURE = 2
+};
+
 class ScriptAction
 {
     public:

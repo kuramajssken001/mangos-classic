@@ -326,7 +326,16 @@ bool ChatHandler::HandleReloadAllSpellCommand(char* /*args*/)
     HandleReloadSpellTargetPositionCommand((char*)"a");
     HandleReloadSpellThreatsCommand((char*)"a");
     HandleReloadSpellPetAurasCommand((char*)"a");
+	HandleReloadSpellDisabledCommand((char*)"a"); //禁止某个技能数据库重载
     return true;
+}
+
+bool ChatHandler::HandleReloadSpellDisabledCommand(char* /*arg*/) //禁止某个技能数据库重载
+{
+	sLog.outString("Re-Loading spell disabled table...");
+	sObjectMgr.LoadSpellDisabledEntrys();
+	SendGlobalSysMessage("DB table `spell_disabled` reloaded.");
+	return true;
 }
 
 bool ChatHandler::HandleReloadAllGossipsCommand(char* args)

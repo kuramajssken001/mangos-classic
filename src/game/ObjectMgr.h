@@ -893,6 +893,10 @@ class ObjectMgr
         static PetNameInvalidReason CheckPetName(const std::string& name);
         static bool IsValidCharterName(const std::string& name);
 
+		void LoadSpellDisabledEntrys(); //数据库中禁止某个技能
+		bool IsPlayerSpellDisabled(uint32 spellid) { return (m_DisabledPlayerSpells.count(spellid) != 0); }
+		bool IsCreatureSpellDisabled(uint32 spellid) { return (m_DisabledCreatureSpells.count(spellid) != 0); }
+
         int GetIndexForLocale(LocaleConstant loc);
         LocaleConstant GetLocaleForIndex(int i);
 
@@ -1070,6 +1074,9 @@ class ObjectMgr
         // character reserved names
         typedef std::set<std::wstring> ReservedNamesMap;
         ReservedNamesMap    m_ReservedNames;
+
+		std::set<uint32>    m_DisabledPlayerSpells; //数据库中禁止某个技能
+		std::set<uint32>    m_DisabledCreatureSpells; //数据库中禁止某个技能
 
         GraveYardMap        mGraveYardMap;
 

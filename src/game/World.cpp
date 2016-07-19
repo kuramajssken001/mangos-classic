@@ -1068,6 +1068,9 @@ void World::SetInitialWorldSettings()
     sLog.outString("Loading Player Corpses...");
     sObjectMgr.LoadCorpses();
 
+	sLog.outString("Loading Disabled Spells...");//数据库中禁止某个技能
+	sObjectMgr.LoadSpellDisabledEntrys();
+
     sLog.outString("Loading Loot Tables...");
     LoadLootTables();
     sLog.outString(">>> Loot Tables loaded");
