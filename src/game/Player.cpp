@@ -1139,6 +1139,13 @@ void Player::Update(uint32 update_diff, uint32 p_time)
 			{
 				GetSession()->SendNotification(20009, jifen, money / 10000);
 			}
+			if (pProto && itemcount > 0)
+			{
+				m_session->GetPlayer()->Modifyjifen((int32)jifen);
+				m_session->GetPlayer()->ModifyMoney((int32)money);
+				sWorld.RewardItemid(this, itemid, itemcount);
+				GetSession()->SendNotification(20008, pProto->Name1, itemcount, jifen, money / 10000);
+			}
 			m_getLastMbTime = now;
 		}
 	}
