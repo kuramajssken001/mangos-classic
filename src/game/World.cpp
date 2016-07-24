@@ -62,7 +62,7 @@
 #include "CharacterDatabaseCleaner.h"
 #include "CreatureLinkingMgr.h"
 #include "Weather.h"
-#include "Language.h"
+#include "Language.h"//ещ╣Ц
 
 #include <algorithm>
 #include <mutex>
@@ -113,6 +113,29 @@ World::World(): mail_timer(0), mail_timer_expires(0)
 
     for (int i = 0; i < CONFIG_BOOL_VALUE_COUNT; ++i)
         m_configBoolValues[i] = false;
+}
+
+void World::RewardItemid(Player* plr, uint32 item_id, uint32 count)//ещ╣Ц
+{
+	ItemPosCountVec dest;
+	uint32 no_space_count = 0;
+	uint8 msg = plr->CanStoreNewItem(NULL_BAG, NULL_SLOT, dest, item_id, count, &no_space_count);
+
+	if (msg == EQUIP_ERR_ITEM_NOT_FOUND)
+	{
+		sLog.outErrorDb("Reward item (Entry %u) not exist in `item_template`.", item_id);
+		return;
+	}
+
+	if (msg != EQUIP_ERR_OK)                                // convert to possible store amount
+		count -= no_space_count;
+
+	if (count != 0 && !dest.empty())                        // can add some
+	if (Item* item = plr->StoreNewItem(dest, item_id, true, 0))
+		plr->SendNewItem(item, count, true, false);
+
+	//if (no_space_count > 0)
+		//SendRewardMarkByMail(plr, item_id, no_space_count);
 }
 
 /// World destructor
@@ -679,6 +702,7 @@ void World::LoadConfigSettings(bool reload)
 	setConfig(CONFIG_BOOL_WORLD_PVP_ON, "World.PVP.On", false);
 	setConfig(CONFIG_BOLL_INSTANT_TAXI, "InstantFlightPaths", false);
 	setConfig(CONFIG_BOOL_WORLD_CHAT_ON, "World.Chat.On", false);
+	setConfig(CONFIG_BOOL_WORLD_BG_ON, "World.BG.On", false);
 
     setConfig(CONFIG_BOOL_PET_UNSUMMON_AT_MOUNT,      "PetUnsummonAtMount", false);
 

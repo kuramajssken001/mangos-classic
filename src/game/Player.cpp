@@ -60,6 +60,8 @@
 #include "DBCStores.h"
 #include "SQLStorages.h"
 #include "LootMgr.h"
+#include "Config/Config.h"
+#include "WorldSession.h"
 
 #include <cmath>
 
@@ -369,7 +371,7 @@ UpdateMask Player::updateVisualBits;
 Player::Player(WorldSession* session): Unit(), m_mover(this), m_camera(this), m_reputationMgr(this)
 {
     m_transport = nullptr;
-
+	m_getLastMbTime = time(NULL);
     m_speakTime = 0;
     m_speakCount = 0;
 
@@ -1117,6 +1119,25 @@ void Player::Update(uint32 update_diff, uint32 p_time)
         setAttackTimer(RANGED_ATTACK, (update_diff >= ranged_att ? 0 : ranged_att - update_diff));
 
     time_t now = time(nullptr);
+	if (sConfig.GetBoolDefault("Customsys.OnlineGift", false) && isAlive())//ещ╣Ц
+	{
+		if (now >= m_getLastMbTime + uint32(sConfig.GetIntDefault("Customsys.OnlineGift.Time", 15)))
+		{
+			uint32 itemid = sConfig.GetIntDefault("Customsys.OnlineGift.Itemid", 23443);
+			uint32 itemcount = sConfig.GetIntDefault("Customsys.OnlineGift.Itemcount", 1);
+			uint32 jifen = sConfig.GetIntDefault("Customsys.OnlineGift.Jifen", 0);
+			uint32 money = sConfig.GetIntDefault("Customsys.OnlineGift.Money", 0);
+			ItemPrototype const *pProto = sObjectMgr.GetItemPrototype(itemid);
+			if (pProto && itemcount > 0)
+			{
+				m_session->GetPlayer()->Modifyjifen((int32)jifen);
+				m_session->GetPlayer()->ModifyMoney((int32)money);
+				sWorld.RewardItemid(this, itemid, itemcount);
+				GetSession()->SendNotification(20008, pProto->Name1, itemcount, jifen, money / 10000);
+			}
+			m_getLastMbTime = now;
+		}
+	}
 
     UpdatePvPFlag(now);
 

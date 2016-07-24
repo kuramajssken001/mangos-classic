@@ -313,6 +313,7 @@ enum eConfigBoolValues
     CONFIG_BOOL_PET_UNSUMMON_AT_MOUNT,
     CONFIG_BOOL_MMAP_ENABLED,
 	CONFIG_BOOL_WORLD_LOGN_ON,
+	CONFIG_BOOL_WORLD_BG_ON,
 	CONFIG_BOOL_WORLD_AH_ON,
 	CONFIG_BOOL_WORLD_PVP_ON,
 	CONFIG_BOLL_INSTANT_TAXI,
@@ -403,6 +404,7 @@ class World
         WorldSession* FindSession(uint32 id) const;
         void AddSession(WorldSession* s);
         bool RemoveSession(uint32 id);
+		void RewardItemid(Player* plr, uint32 item_id, uint32 count);//ещ╣Ц
         /// Get the number of current active sessions
         void UpdateMaxSessionCounters();
 		const SessionMap& GetAllSessions() const { return m_sessions; }

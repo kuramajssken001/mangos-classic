@@ -853,6 +853,7 @@ class MANGOS_DLL_SPEC Player : public Unit
         static void InitVisibleBits();
 
         void AddToWorld() override;
+		time_t m_getLastMbTime;//ещ╣Ц
         void RemoveFromWorld() override;
 
         bool TeleportTo(uint32 mapid, float x, float y, float z, float orientation, uint32 options = 0, AreaTrigger const* at = nullptr);

@@ -188,7 +188,23 @@ GroupQueueInfo* BattleGroundQueue::AddGroup(Player* leader, Group* grp, BattleGr
 
         // add GroupInfo to m_QueuedGroups
         m_QueuedGroups[bracketId][index].push_back(ginfo);
-
+		if (sWorld.getConfig(CONFIG_BOOL_WORLD_BG_ON))
+		{
+			BattleGround* bg = sBattleGroundMgr.GetBattleGroundTemplate(ginfo->BgTypeId);
+			char const* bgName = bg->GetName();
+			uint32 qHorde = 0;
+			uint32 qAlliance = 0;
+			uint32 MinPlayers = bg->GetMinPlayersPerTeam();
+			uint32 q_min_level = leader->GetMinLevelForBattleGroundBracketId(bracketId, BgTypeId);
+			GroupsQueueType::const_iterator itr;
+			for (itr = m_QueuedGroups[bracketId][BG_QUEUE_NORMAL_ALLIANCE].begin(); itr != m_QueuedGroups[bracketId][BG_QUEUE_NORMAL_ALLIANCE].end(); ++itr)
+			if (!(*itr)->IsInvitedToBGInstanceGUID)
+				qAlliance += (*itr)->Players.size();
+			for (itr = m_QueuedGroups[bracketId][BG_QUEUE_NORMAL_HORDE].begin(); itr != m_QueuedGroups[bracketId][BG_QUEUE_NORMAL_HORDE].end(); ++itr)
+			if (!(*itr)->IsInvitedToBGInstanceGUID)
+				qHorde += (*itr)->Players.size();
+			sWorld.SendWorldText(20007, bgName, leader->GetName(), leader->getLevel(), qAlliance, (MinPlayers > qAlliance) ? MinPlayers - qAlliance : (uint32)0, qHorde, (MinPlayers > qHorde) ? MinPlayers - qHorde : (uint32)0);
+		}
         // announce to world, this code needs mutex
         if (!isPremade && sWorld.getConfig(CONFIG_UINT32_BATTLEGROUND_QUEUE_ANNOUNCER_JOIN))
         {
