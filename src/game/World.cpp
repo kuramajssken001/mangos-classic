@@ -1542,6 +1542,26 @@ void World::SendWorldText(int32 string_id, ...)
     va_end(ap);
 }
 
+void World::SendWorldTeamText(int32 team, int32 string_id, ...)
+{
+	va_list ap;
+	va_start(ap, string_id);
+
+	MaNGOS::WorldWorldTextBuilder wt_builder(string_id, &ap);
+	MaNGOS::LocalizedPacketListDo<MaNGOS::WorldWorldTextBuilder> wt_do(wt_builder);
+	for (SessionMap::const_iterator itr = m_sessions.begin(); itr != m_sessions.end(); ++itr)
+	{
+		if (WorldSession* session = itr->second)
+		{
+			Player* player = session->GetPlayer();
+			if (player && player->IsInWorld() && player->GetTeam())
+				wt_do(player);
+		}
+	}
+
+	va_end(ap);
+}
+
 void World::SendBroadcast()
 
 {

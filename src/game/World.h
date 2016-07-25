@@ -475,6 +475,7 @@ class World
         void LoadConfigSettings(bool reload = false);
 
         void SendWorldText(int32 string_id, ...);
+		void SendWorldTeamText(int32 team, int32 string_id, ...);
         void SendGlobalMessage(WorldPacket* packet);
         void SendServerMessage(ServerMessageType type, const char* text = "", Player* player = nullptr);
         void SendZoneUnderAttackMessage(uint32 zoneId, Team team);
