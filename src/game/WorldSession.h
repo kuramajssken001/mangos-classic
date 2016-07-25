@@ -130,6 +130,9 @@ class MANGOS_DLL_SPEC WorldSession
         bool PlayerLogout() const { return m_playerLogout; }
         bool PlayerLogoutWithSave() const { return m_playerLogout && m_playerSave; }
 
+		inline bool Anti__CheatOccurred(uint32 CurTime, const char* Reason, float Speed, const char* Op = NULL, float Val1 = 0.0f, uint32 Val2 = 0);
+		bool Anti__ReportCheat(const char* Reason, float Speed, const char* Op = NULL, float Val1 = 0.0f, uint32 Val2 = 0);
+
         // marks this session as finalized in the socket which owns it.  this lets
         // the socket handling code know that the session can be safely deleted
         void Finalize() { m_Socket->FinalizeSession(); }
