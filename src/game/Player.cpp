@@ -862,6 +862,21 @@ void Player::StopMirrorTimer(MirrorTimerType Type)
     GetSession()->SendPacket(&data);
 }
 
+void Player::CharResetInstance(Player* player)//个人重置副本
+{
+	CharacterDatabase.PExecute("delete from `instance` where `id` in(select `instance` from `character_instance` where `guid`='%u');", player->GetGUIDLow());
+	CharacterDatabase.PExecute("delete from `character_instance` where `guid`='%u';", player->GetGUIDLow());
+	CharacterDatabase.CommitTransaction();
+}
+
+void Player::GroupResetInstance(Player* player)//团队重置副本
+{
+
+	CharacterDatabase.PExecute("delete from `instance` where `id` in(select `instance` from `group_instance` where `leaderGuid`='%u');", player->GetGUIDLow());
+	CharacterDatabase.PExecute("delete from `group_instance` where `leaderGuid`='%u';", player->GetGUIDLow());
+	CharacterDatabase.CommitTransaction();
+}
+
 uint32 Player::EnvironmentalDamage(EnvironmentalDamageType type, uint32 damage)
 {
     if (!isAlive() || isGameMaster())

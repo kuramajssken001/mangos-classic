@@ -2139,6 +2139,8 @@ class MANGOS_DLL_SPEC Player : public Unit
         void SendMirrorTimer(MirrorTimerType Type, uint32 MaxValue, uint32 CurrentValue, int32 Regen);
         void StopMirrorTimer(MirrorTimerType Type);
         void HandleDrowning(uint32 time_diff);
+		void CharResetInstance(Player* player);
+		void GroupResetInstance(Player* player);
         int32 getMaxTimer(MirrorTimerType timer);
 
         /*********************************************************/
