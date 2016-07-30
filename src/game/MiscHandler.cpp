@@ -972,7 +972,6 @@ void WorldSession::HandleInspectOpcode(WorldPacket& recv_data)
     recv_data >> guid;
     DEBUG_LOG("Inspected guid is %s", guid.GetString().c_str());
 
-    _player->SetSelectionGuid(guid);
 
     Player* plr = sObjectMgr.GetPlayer(guid);
     if (!plr)                                               // wrong player
