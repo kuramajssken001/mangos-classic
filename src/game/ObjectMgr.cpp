@@ -4255,7 +4255,7 @@ void ObjectMgr::LoadConditions()
 
         if (!condition->IsValid())
         {
-            sLog.outErrorDb("ObjectMgr::LoadConditions: invalid condition_entry %u, skip", i);
+            //sLog.outErrorDb("ObjectMgr::LoadConditions: invalid condition_entry %u, skip", i);
             sConditionStorage.EraseEntry(i);
             continue;
         }

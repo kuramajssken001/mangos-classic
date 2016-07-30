@@ -34,6 +34,7 @@
 #include "Util.h"
 #include "GridNotifiersImpl.h"
 #include "CellImpl.h"
+#include "Config/Config.h"
 
 bool WorldSession::processChatmessageFurtherAfterSecurityChecks(std::string& msg, uint32 lang)
 {
@@ -273,17 +274,35 @@ void WorldSession::HandleMessagechatOpcode(WorldPacket& recv_data)
         {
             std::string msg;
             recv_data >> msg;
-			Player *pPlayer = GetPlayer();
-			if (sWorld.getConfig(CONFIG_BOOL_WORLD_CHAT_ON))
+			uint32 ChatOn = sConfig.GetIntDefault("World.Chat.On", 0);
+			uint32 playermoney = GetPlayer()->GetMoney();
+			uint32 money = sConfig.GetIntDefault("World.Chat.Money", 0);
+			uint32 item = sConfig.GetIntDefault("World.Chat.ItemID", 0);
+			uint32 itemcount = sConfig.GetIntDefault("World.Chat.ItemCount", 0);
+			if (ChatOn == 0)
+			{
+				return;
+			}
+			if (ChatOn == 1)
 			{
 				if (msg == "")
 					return;
-				if (!pPlayer)
+				if (playermoney < money)
 					return;
-				if (pPlayer->HasItemCount(90001, 1))
-					sWorld.SendWorldText(20004, GetPlayerName(), msg.c_str());
-				pPlayer->DestroyItemCount(90001, 1, true);
+				sWorld.SendWorldText(20004, GetPlayerName(), msg.c_str());
+				GetPlayer()->ModifyMoney(-money);
 				return;
+			}
+			if (ChatOn == 2)
+			{
+				if (msg == "")
+					return;
+				if (GetPlayer()->HasItemCount(item, 1))
+				{
+					sWorld.SendWorldText(20004, GetPlayerName(), msg.c_str());
+					GetPlayer()->DestroyItemCount(item, itemcount, true);
+					return;
+				}
 			}
             if (msg.empty())
                 break;
