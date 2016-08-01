@@ -16126,7 +16126,7 @@ bool Player::ActivateTaxiPathTo(std::vector<uint32> const& nodes, Creature* npc 
 			TaxiNodesEntry const* lastnode = sTaxiNodesStore.LookupEntry(nodes[nodes.size() - 1]);
 			m_taxi.ClearTaxiDestinations();
 			TeleportTo(lastnode->map_id, lastnode->x, lastnode->y, lastnode->z, GetOrientation());
-			m_session->GetPlayer()->DestroyItemCount(90002, 1, true);
+			//m_session->GetPlayer()->DestroyItemCount(90002, 1, true);
 			return false;
 		}
 	}
