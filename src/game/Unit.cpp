@@ -8030,6 +8030,19 @@ bool CharmInfo::AddSpellToActionBar(uint32 spell_id, ActiveStates newstate)
     {
         if (uint32 action = PetActionBar[i].GetAction())
         {
+			SpellEntry const* spellInfo = sSpellStore.LookupEntry(spell_id);
+
+			bool ranked = strlen(spellInfo->Rank[0]);
+			uint32 cost = spellInfo->manaCost;
+			uint32 cooldown = GetSpellRecoveryTime(spellInfo);
+			uint32 casttime = GetSpellCastTime(spellInfo);
+			bool channel = IsChanneledSpell(spellInfo);
+
+			if (ranked == 0 && cost == 0 && cooldown == 0 && casttime == 0 && channel == 0) {
+				sLog.outError("Removing suspicious spell from actionbar: \"%s\" (%i) has neither costs(%i), cooldown(%i), casttime(%i) nor is channeled(%d).",
+				spellInfo->SpellName[0], spell_id, cost, cooldown, casttime, channel);
+				return false;
+			}
             if (PetActionBar[i].IsActionBarForSpell() && sSpellMgr.GetFirstSpellInChain(action) == first_id)
             {
                 PetActionBar[i].SetAction(spell_id);
