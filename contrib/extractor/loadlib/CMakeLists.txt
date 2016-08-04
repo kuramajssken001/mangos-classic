@@ -14,6 +14,6 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-add_library (loadlib loadlib.cpp  adt.cpp  wdt.cpp)
+add_library (loadlib STATIC loadlib.cpp  adt.cpp  wdt.cpp)
 # link loadlib with zlib
 target_link_libraries (loadlib z)
