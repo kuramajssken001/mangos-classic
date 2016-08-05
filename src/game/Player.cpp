@@ -1546,7 +1546,7 @@ ChatTagFlags Player::GetChatTag() const
     return CHAT_TAG_NONE;
 }
 
-bool Player::TeleportTo(uint32 mapid, float x, float y, float z, float orientation, uint32 options /*=0*/, AreaTrigger const* at /*=nullptr*/)
+bool Player::TeleportTo(uint32 mapid, float x, float y, float z, float orientation, uint32 options /*=0*/, AreaTrigger const* at /*=nullptr*/, bool isAllowNoDelay /*=false*/)
 {
     if (!MapManager::IsValidMapCoord(mapid, x, y, z, orientation))
     {
@@ -1610,7 +1610,7 @@ bool Player::TeleportTo(uint32 mapid, float x, float y, float z, float orientati
         // setup delayed teleport flag
         // if teleport spell is casted in Unit::Update() func
         // then we need to delay it until update process will be finished
-        if (SetDelayedTeleportFlagIfCan())
+		if (!isAllowNoDelay && SetDelayedTeleportFlagIfCan())
         {
             SetSemaphoreTeleportNear(true);
             // lets save teleport destination for player
@@ -1661,7 +1661,7 @@ bool Player::TeleportTo(uint32 mapid, float x, float y, float z, float orientati
             // setup delayed teleport flag
             // if teleport spell is casted in Unit::Update() func
             // then we need to delay it until update process will be finished
-            if (SetDelayedTeleportFlagIfCan())
+			if (!isAllowNoDelay && SetDelayedTeleportFlagIfCan())
             {
                 SetSemaphoreTeleportFar(true);
                 // lets save teleport destination for player
@@ -4511,7 +4511,7 @@ void Player::RepopAtGraveyard()
     if (ClosestGrave)
     {
         bool updateVisibility = IsInWorld() && GetMapId() == ClosestGrave->map_id;
-        TeleportTo(ClosestGrave->map_id, ClosestGrave->x, ClosestGrave->y, ClosestGrave->z, GetOrientation());
+		TeleportTo(ClosestGrave->map_id, ClosestGrave->x, ClosestGrave->y, ClosestGrave->z, GetOrientation(), 0, nullptr, GetSession()->isLogingOut());
         if (updateVisibility && IsInWorld())
             UpdateVisibilityAndView();
     }
