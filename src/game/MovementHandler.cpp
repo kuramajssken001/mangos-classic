@@ -567,6 +567,13 @@ void WorldSession::HandleMovementOpcodes(WorldPacket& recv_data)
 				Anti__CheatOccurred(CurTime, "Water walking", 0.0f, NULL, 0.0f, (uint32)(movementInfo.GetMovementFlags()));
 		}
 
+		if (movementInfo.GetMovementFlags() & (MOVEFLAG_FLYING | MOVEFLAG_SWIMMING) &&
+			(delta_z == INVALID_HEIGHT || delta_z + 30.0f < GetPlayer()->GetPositionZ()) && delta_z >= -199900.0f)
+		{
+			if (sWorld.GetMvAnticheatFlyCheck())
+				Anti__CheatOccurred(CurTime, "Fly hack", 0.0f, NULL, 0.0f, (uint32)(movementInfo.GetMovementFlags()));
+		}
+
 		// Check for walking upwards a mountain while not beeing able to do that, New check by Darky88
 		if ((delta_z < -2.3f) && (tg_z > 2.37f))
 		{
