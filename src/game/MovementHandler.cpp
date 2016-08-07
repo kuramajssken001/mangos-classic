@@ -567,8 +567,8 @@ void WorldSession::HandleMovementOpcodes(WorldPacket& recv_data)
 				Anti__CheatOccurred(CurTime, "Water walking", 0.0f, NULL, 0.0f, (uint32)(movementInfo.GetMovementFlags()));
 		}
 
-		if (movementInfo.GetMovementFlags() & (MOVEFLAG_FLYING | MOVEFLAG_SWIMMING) &&
-			(delta_z == INVALID_HEIGHT || delta_z + 30.0f < GetPlayer()->GetPositionZ()) && delta_z >= -199900.0f)
+		if (movementInfo.GetMovementFlags() & (MOVEFLAG_FLYING/*MOVEFLAG_SWIMMING*/) &&
+			(delta_z == INVALID_HEIGHT || delta_z + 5.0f < GetPlayer()->GetPositionZ()) && delta_z >= -199900.0f && !(GetPlayer()->HasAuraType(SPELL_AURA_WATER_WALK) || GetPlayer()->HasAuraType(SPELL_AURA_GHOST)))
 		{
 			if (sWorld.GetMvAnticheatFlyCheck())
 				Anti__CheatOccurred(CurTime, "Fly hack", 0.0f, NULL, 0.0f, (uint32)(movementInfo.GetMovementFlags()));
