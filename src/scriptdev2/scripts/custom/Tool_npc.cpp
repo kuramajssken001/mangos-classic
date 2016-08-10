@@ -127,6 +127,7 @@ bool GossipSelect_npc_tool(Player* pPlayer, Creature* pCreature, uint32 /*uiSend
 			{
 				pPlayer->GetSession()->SendNotification("无法重复购买!　");
 				pPlayer->PlayerTalkClass->CloseGossip();
+				break;
 			}
 			if (pPlayer->Getjifen() >= 7)
 			{
@@ -162,6 +163,7 @@ bool GossipSelect_npc_tool(Player* pPlayer, Creature* pCreature, uint32 /*uiSend
 			{
 				pPlayer->GetSession()->SendNotification("无法重复购买!　");
 				pPlayer->PlayerTalkClass->CloseGossip();
+				break;
 			}
 			if (pPlayer->Getjifen() >= 10)
 			{
@@ -198,6 +200,7 @@ bool GossipSelect_npc_tool(Player* pPlayer, Creature* pCreature, uint32 /*uiSend
 			{
 				pPlayer->GetSession()->SendNotification("无法重复购买!　");
 				pPlayer->PlayerTalkClass->CloseGossip();
+				break;
 			}
 			if (pPlayer->Getjifen() >= 10)
 			{
@@ -218,6 +221,7 @@ bool GossipSelect_npc_tool(Player* pPlayer, Creature* pCreature, uint32 /*uiSend
 			{
 				pPlayer->GetSession()->SendNotification("无法重复购买!　");
 				pPlayer->PlayerTalkClass->CloseGossip();
+				break;
 			}
 			if (pPlayer->Getjifen() >= 200)
 			{
@@ -238,6 +242,7 @@ bool GossipSelect_npc_tool(Player* pPlayer, Creature* pCreature, uint32 /*uiSend
 			{
 				pPlayer->GetSession()->SendNotification("无法重复购买!　");
 				pPlayer->PlayerTalkClass->CloseGossip();
+				break;
 			}
 			if (pPlayer->Getjifen() >= 100)
 			{
@@ -258,6 +263,7 @@ bool GossipSelect_npc_tool(Player* pPlayer, Creature* pCreature, uint32 /*uiSend
 			{
 				pPlayer->GetSession()->SendNotification("无法重复购买!　");
 				pPlayer->PlayerTalkClass->CloseGossip();
+				break;
 			}
 			if (pPlayer->Getjifen() >= 100)
 			{
