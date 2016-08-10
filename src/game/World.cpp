@@ -199,8 +199,7 @@ void World::AddSession(WorldSession* s)
     m_sessionAddQueue.push_back(s);
 }
 
-void
-World::AddSession_(WorldSession* s)
+void World::AddSession_(WorldSession* s)
 {
     MANGOS_ASSERT(s);
 

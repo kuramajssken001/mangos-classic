@@ -676,13 +676,13 @@
       <Filter>system</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\scriptdev2\ScriptMgr.cpp" />
-    <ClCompile Include="..\..\..\..\..\MaNGOS_Server_R20\src\modules\SD2\scripts\custom\Item_Level.cpp">
+    <ClCompile Include="..\..\src\scriptdev2\scripts\custom\Item_Level.cpp">
       <Filter>scripts\custom</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\MaNGOS_Server_R20\src\modules\SD2\scripts\custom\Item_talent.cpp">
+    <ClCompile Include="..\..\src\scriptdev2\scripts\custom\Item_talent.cpp">
       <Filter>scripts\custom</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\MaNGOS_Server_R20\src\modules\SD2\scripts\custom\Tool_npc.cpp">
+    <ClCompile Include="..\..\src\scriptdev2\scripts\custom\Tool_npc.cpp">
       <Filter>scripts\custom</Filter>
     </ClCompile>
   </ItemGroup>
