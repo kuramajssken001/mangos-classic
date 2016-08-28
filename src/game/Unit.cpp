@@ -2036,7 +2036,6 @@ void Unit::AttackerStateUpdate(Unit* pVictim, WeaponAttackType attType, bool ext
         return;
     }
 
-	RemoveAurasWithInterruptFlags(AURA_INTERRUPT_FLAG_MELEE_ATTACK);
     CalcDamageInfo damageInfo;
     CalculateMeleeDamage(pVictim, &damageInfo, attType);
     // Send log damage message to client

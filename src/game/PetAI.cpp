@@ -43,21 +43,28 @@ PetAI::PetAI(Creature* c) : CreatureAI(c), i_tracker(TIME_INTERVAL_LOOK), inComb
 
 void PetAI::MoveInLineOfSight(Unit* u)
 {
-	if (m_creature->getVictim())
-		return;
+    if (m_creature->getVictim())
+        return;
 
-	if (m_creature->IsPet() && ((Pet*)m_creature)->GetModeFlags() & PET_MODE_DISABLE_ACTIONS)
-		return;
+    if (m_creature->IsPet() && ((Pet*)m_creature)->GetModeFlags() & PET_MODE_DISABLE_ACTIONS)
+        return;
 
-	if (!m_creature->GetCharmInfo() || !m_creature->GetCharmInfo()->HasReactState(REACT_AGGRESSIVE))
-		return;
+    if (!m_creature->GetCharmInfo() || !m_creature->GetCharmInfo()->HasReactState(REACT_AGGRESSIVE))
+        return;
 
-	if (u->isTargetableForAttack() && u->isInAccessablePlaceFor(m_creature)
-		 && (m_creature->IsHostileTo(u) || u->IsHostileTo(m_creature->GetCharmerOrOwner()))
-		 && m_creature->IsWithinDistInMap(u, m_creature->GetAttackDistance(u)
-		 && m_creature->GetDistanceZ(u) <= CREATURE_Z_ATTACK_RANGE)
-		 && m_creature->IsWithinLOSInMap(u))
-		 AttackStart(u);
+    if (u->isTargetableForAttack() && u->isInAccessablePlaceFor(m_creature) &&
+           (m_creature->IsHostileTo(u) || u->IsHostileTo(m_creature->GetCharmerOrOwner())))
+    {
+        float attackRadius = m_creature->GetAttackDistance(u);
+        if (m_creature->IsWithinDistInMap(u, attackRadius) && m_creature->GetDistanceZ(u) <= CREATURE_Z_ATTACK_RANGE)
+        {
+            if (m_creature->IsWithinLOSInMap(u))
+            {
+                AttackStart(u);
+                u->RemoveSpellsCausingAura(SPELL_AURA_MOD_STEALTH);
+            }
+        }
+    }
 }
 
 void PetAI::AttackStart(Unit* u)
@@ -194,6 +201,8 @@ void PetAI::UpdateAI(const uint32 diff)
             if (result == SPELL_CAST_OK)
             {
                 m_creature->AddCreatureSpellCooldown(spell_id);
+
+                m_creature->RemoveSpellsCausingAura(SPELL_AURA_MOD_STEALTH);
                 spell->SpellStart(&(spell->m_targets));
             }
             else
@@ -201,6 +210,7 @@ void PetAI::UpdateAI(const uint32 diff)
 
             ((Pet*)m_creature)->SetSpellOpener();
         }
+
         else
             return;
     }
@@ -308,6 +318,7 @@ void PetAI::UpdateAI(const uint32 diff)
 			if (m_creature->IsPet())
 				((Pet*)m_creature)->CheckLearning(spell->m_spellInfo->Id);
 
+			m_creature->RemoveSpellsCausingAura(SPELL_AURA_MOD_STEALTH);
 			spell->SpellStart(&targets);
 
 
@@ -349,8 +360,11 @@ void PetAI::UpdateAI(const uint32 diff)
             }
 
             if (!(m_creature->GetCreatureInfo()->ExtraFlags & CREATURE_EXTRA_FLAG_NO_MELEE)
-                && DoMeleeAttackIfReady())           
+                && DoMeleeAttackIfReady())
+            {
+                m_creature->RemoveSpellsCausingAura(SPELL_AURA_MOD_STEALTH);
                 victim->AddThreat(m_creature);
+            }
             else
                 AttackStart(victim);
         }
