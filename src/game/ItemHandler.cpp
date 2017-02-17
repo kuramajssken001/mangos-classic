@@ -26,6 +26,8 @@
 #include "Item.h"
 #include "UpdateData.h"
 #include "Chat.h"
+#include "Spell.h"
+#include "ScriptMgr.h"
 
 void WorldSession::HandleSplitItemOpcode(WorldPacket& recv_data)
 {
@@ -429,19 +431,23 @@ void WorldSession::HandleReadItemOpcode(WorldPacket& recv_data)
         WorldPacket data;
 
         InventoryResult msg = _player->CanUseItem(pItem);
-        if (msg == EQUIP_ERR_OK)
-        {
-            data.Initialize(SMSG_READ_ITEM_OK, 8);
-            DETAIL_LOG("STORAGE: Item page sent");
-        }
-        else
-        {
-            data.Initialize(SMSG_READ_ITEM_FAILED, 8);
-            DETAIL_LOG("STORAGE: Unable to read item");
-            _player->SendEquipError(msg, pItem, nullptr);
-        }
-        data << ObjectGuid(pItem->GetObjectGuid());
-        SendPacket(&data);
+		SpellCastTargets targets;
+		if (!sScriptMgr.OnItemUse(GetPlayer(), pItem, targets))
+		{
+			if (msg == EQUIP_ERR_OK)
+			{
+				data.Initialize(SMSG_READ_ITEM_OK, 8);
+				DETAIL_LOG("STORAGE: Item page sent");
+			}
+			else
+			{
+				data.Initialize(SMSG_READ_ITEM_FAILED, 8);
+				DETAIL_LOG("STORAGE: Unable to read item");
+				_player->SendEquipError(msg, pItem, nullptr);
+			}
+			data << ObjectGuid(pItem->GetObjectGuid());
+			SendPacket(&data);
+		}
     }
     else
         _player->SendEquipError(EQUIP_ERR_ITEM_NOT_FOUND, nullptr, nullptr);

@@ -305,6 +305,19 @@ bool GOGossipSelect(Player* pPlayer, GameObject* pGo, uint32 uiSender, uint32 ui
 }
 
 MANGOS_DLL_EXPORT
+bool GossipItemSelect(Player *pPlayer, Item *_Item, uint32 sender, uint32 action)
+{
+	if (!pPlayer || !_Item) 
+		return false;
+	Script *tmpscript = m_scripts[_Item->GetProto()->ScriptId];
+	if (!tmpscript || !tmpscript->pGossipItemSelect) 
+		return false;
+
+	pPlayer->PlayerTalkClass->ClearMenus();
+	return tmpscript->pGossipItemSelect(pPlayer, _Item, sender, action);
+}
+
+MANGOS_DLL_EXPORT
 bool GossipSelectWithCode(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction, const char* sCode)
 {
     debug_log("SD2: Gossip selection with code, sender: %u, action: %u", uiSender, uiAction);
@@ -477,6 +490,8 @@ bool ItemUse(Player* pPlayer, Item* pItem, SpellCastTargets const& targets)
 
     if (!pTempScript || !pTempScript->pItemUse)
         return false;
+
+	pPlayer->PlayerTalkClass->ClearMenus();
 
     return pTempScript->pItemUse(pPlayer, pItem, targets);
 }

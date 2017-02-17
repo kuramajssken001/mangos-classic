@@ -63,7 +63,7 @@ struct Script
         pGossipSelectWithCode(nullptr), pGossipSelectGOWithCode(nullptr),
         pDialogStatusNPC(nullptr), pDialogStatusGO(nullptr),
         pQuestAcceptNPC(nullptr), pQuestAcceptGO(nullptr), pQuestAcceptItem(nullptr),
-        pQuestRewardedNPC(nullptr), pQuestRewardedGO(nullptr),
+		pQuestRewardedNPC(nullptr), pQuestRewardedGO(nullptr), pGossipItemSelect(NULL),
         pGOUse(nullptr), pItemUse(nullptr), pAreaTrigger(nullptr), pProcessEventId(nullptr),
         pEffectDummyNPC(nullptr), pEffectDummyGO(nullptr), pEffectDummyItem(nullptr), pEffectScriptEffectNPC(nullptr),
         pEffectAuraDummy(nullptr), GetAI(nullptr), GetInstanceData(nullptr)
@@ -74,6 +74,7 @@ struct Script
     bool (*pGossipHello)(Player*, Creature*);
     bool (*pGossipHelloGO)(Player*, GameObject*);
     bool (*pGossipSelect)(Player*, Creature*, uint32, uint32);
+	bool (*pGossipItemSelect)(Player*, Item*, uint32, uint32);
     bool (*pGossipSelectGO)(Player*, GameObject*, uint32, uint32);
     bool (*pGossipSelectWithCode)(Player*, Creature*, uint32, uint32, const char*);
     bool (*pGossipSelectGOWithCode)(Player*, GameObject*, uint32, uint32, const char*);
