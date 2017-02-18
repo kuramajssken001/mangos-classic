@@ -183,6 +183,7 @@ class MANGOS_DLL_SPEC ChatHandler
         bool HandleBanCharacterCommand(char* args);
         bool HandleBanIPCommand(char* args);
         bool HandleBanInfoAccountCommand(char* args);
+		bool HandleAddzcCommand(char* args);
         bool HandleBanInfoCharacterCommand(char* args);
         bool HandleBanInfoIPCommand(char* args);
         bool HandleBanListAccountCommand(char* args);

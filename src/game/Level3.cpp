@@ -3774,6 +3774,174 @@ bool ChatHandler::HandleNpcPlayEmoteCommand(char* args)
     return true;
 }
 
+bool ChatHandler::HandleAddzcCommand(char* args)
+{
+	Player* player = m_session->GetPlayer();
+
+	if (!*args)
+		return false;
+
+	AreaTrigger const* at = sObjectMgr.GetMapEntranceTrigger(player->GetMapId());
+	if (at)
+	{
+		MapEntry const* mapEntry = sMapStore.LookupEntry(at->target_mapId);
+		if (mapEntry->IsDungeon())
+		{
+			SetSentErrorMessage(true);
+			return false;
+		}
+	}
+
+	if (player->isInCombat())
+	{
+		SetSentErrorMessage(true);
+		return false;
+	}
+
+	int32 cout;
+	if (ExtractInt32(&args, cout))
+	{
+		if (cout <= 0 || cout > 3)
+		{
+			SetSentErrorMessage(true);
+			return false;
+		}
+
+		if (cout == 1)
+		{
+			if (player->getLevel() != 60)
+			{
+				SetSentErrorMessage(true);
+				return false;
+			}
+
+			BattleGroundTypeId bgTypeId = sBattleGroundMgr.GetBattleMasterBG(3890);
+
+			if (bgTypeId == BATTLEGROUND_TYPE_NONE)
+			{
+				sLog.outError("a user (guid %u) requested battlegroundlist from a npc who is no battlemaster", player->GetGUIDLow());
+				return false;
+			}
+
+			player->GetSession()->SendBattlegGroundList(player->GetObjectGuid(), bgTypeId);
+		}
+		else
+		if (cout == 2)
+		{
+			if (player->getLevel() != 60)
+			{
+				SendSysMessage(LANG_BG_WS_5);
+				SetSentErrorMessage(true);
+				return false;
+			}
+			BattleGroundTypeId bgTypeId = sBattleGroundMgr.GetBattleMasterBG(15006);
+
+			if (bgTypeId == BATTLEGROUND_TYPE_NONE)
+			{
+				sLog.outError("a user (guid %u) requested battlegroundlist from a npc who is no battlemaster", player->GetGUIDLow());
+				return false;
+			}
+
+			player->GetSession()->SendBattlegGroundList(player->GetObjectGuid(), bgTypeId);
+		}
+		else
+		if (cout == 3)
+		{
+			if (player->getLevel() < 58)
+			{
+				SendSysMessage(LANG_BG_WS_5);
+				SetSentErrorMessage(true);
+				return false;
+			}
+			BattleGroundTypeId bgTypeId = sBattleGroundMgr.GetBattleMasterBG(14942);
+
+			if (bgTypeId == BATTLEGROUND_TYPE_NONE)
+			{
+				sLog.outError("a user (guid %u) requested battlegroundlist from a npc who is no battlemaster", player->GetGUIDLow());
+				return false;
+			}
+
+			player->GetSession()->SendBattlegGroundList(player->GetObjectGuid(), bgTypeId);
+		}
+		return true;
+	}
+	char* cFilter = ExtractLiteralArg(&args);
+	if (!cFilter)
+	{
+		SendSysMessage(LANG_BG_WS_4);
+		SetSentErrorMessage(true);
+		return false;
+	}
+	std::string filter = cFilter;
+	if (filter == "zg" || filter == "alx" || filter == "as")
+	{
+
+		if (filter == "zg")
+		{
+			if (player->getLevel() != 60)
+			{
+				SendSysMessage(LANG_BG_WS_5);
+				SetSentErrorMessage(true);
+				return false;
+			}
+			BattleGroundTypeId bgTypeId = sBattleGroundMgr.GetBattleMasterBG(3890);
+
+			if (bgTypeId == BATTLEGROUND_TYPE_NONE)
+			{
+				sLog.outError("a user (guid %u) requested battlegroundlist from a npc who is no battlemaster", player->GetGUIDLow());
+				return false;
+			}
+
+			player->GetSession()->SendBattlegGroundList(player->GetObjectGuid(), bgTypeId);
+		}
+		else
+		if (filter == "alx")
+		{
+			if (player->getLevel() != 60)
+			{
+				SendSysMessage(LANG_BG_WS_5);
+				SetSentErrorMessage(true);
+				return false;
+			}
+			BattleGroundTypeId bgTypeId = sBattleGroundMgr.GetBattleMasterBG(15006);
+
+			if (bgTypeId == BATTLEGROUND_TYPE_NONE)
+			{
+				sLog.outError("a user (guid %u) requested battlegroundlist from a npc who is no battlemaster", player->GetGUIDLow());
+				return false;
+			}
+
+			player->GetSession()->SendBattlegGroundList(player->GetObjectGuid(), bgTypeId);
+		}
+		else
+		if (filter == "as")
+		{
+			if (player->getLevel() < 58)
+			{
+				SendSysMessage(LANG_BG_WS_5);
+				SetSentErrorMessage(true);
+				return false;
+			}
+			BattleGroundTypeId bgTypeId = sBattleGroundMgr.GetBattleMasterBG(14942);
+
+			if (bgTypeId == BATTLEGROUND_TYPE_NONE)
+			{
+				sLog.outError("a user (guid %u) requested battlegroundlist from a npc who is no battlemaster", player->GetGUIDLow());
+				return false;
+			}
+
+			player->GetSession()->SendBattlegGroundList(player->GetObjectGuid(), bgTypeId);
+		}
+	}
+	else
+	{
+		SendSysMessage(LANG_BG_WS_4);
+		SetSentErrorMessage(true);
+		return false;
+	}
+	return true;
+}
+
 // TODO: NpcCommands that needs to be fixed :
 
 bool ChatHandler::HandleNpcAddWeaponCommand(char* /*args*/)

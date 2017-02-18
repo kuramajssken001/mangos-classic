@@ -1026,6 +1026,11 @@ enum MangosStrings
     LANG_OPVP_EP_CAPTURE_EWT_A          = 1605,
     LANG_OPVP_EP_CAPTURE_PWT_H          = 1606,
     LANG_OPVP_EP_CAPTURE_PWT_A          = 1607,
+	LANG_BG_WS_1 = 30001,
+	LANG_BG_WS_2 = 30002,
+	LANG_BG_WS_3 = 30003,
+	LANG_BG_WS_4 = 30004,
+	LANG_BG_WS_5 = 30005,
 
     //                                    1608-1634 used in master branch
 
