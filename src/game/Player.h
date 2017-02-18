@@ -627,6 +627,11 @@ enum EnvironmentalDamageType
     DAMAGE_FALL_TO_VOID         = 6                         // custom case for fall without durability loss
 };
 
+enum PlayeModelId
+{
+	PLAYER_MODELID = 0
+};
+
 enum PlayedTimeIndex
 {
     PLAYED_TIME_TOTAL           = 0,
@@ -634,6 +639,7 @@ enum PlayedTimeIndex
 };
 
 #define MAX_PLAYED_TIME_INDEX   2
+#define MAX_PLAYED_MODELID      1
 
 // used at player loading query list preparing, and later result selection
 enum PlayerLoginQueryIndex
@@ -948,6 +954,9 @@ class MANGOS_DLL_SPEC Player : public Unit
         uint32 GetTotalPlayedTime() { return m_Played_time[PLAYED_TIME_TOTAL]; }
         uint32 GetLevelPlayedTime() { return m_Played_time[PLAYED_TIME_LEVEL]; }
 
+		uint32 m_Player_ModelId[MAX_PLAYED_MODELID];
+		uint32 GetPlayerModelId() { return m_Player_ModelId[PLAYER_MODELID]; }
+
         void SetDeathState(DeathState s) override;          // overwrite Unit::SetDeathState
 
         float GetRestBonus() const { return m_rest_bonus; }
@@ -961,7 +970,6 @@ class MANGOS_DLL_SPEC Player : public Unit
         * \returns: float
         **/
         float ComputeRest(time_t timePassed, bool offline = false, bool inRestPlace = false);
-
         /**
         * \brief: player is interacting with something.
         * \param: ObjectGuid interactObj > object that interact with this player

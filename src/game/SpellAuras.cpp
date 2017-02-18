@@ -1737,6 +1737,33 @@ void Aura::HandleAuraTransform(bool apply, bool Real)
     Unit* target = GetTarget();
     if (apply)
     {
+		if (target->GetTypeId() == TYPEID_PLAYER)
+		{
+			if (Spell* spell = target->GetCurrentSpell(CURRENT_GENERIC_SPELL))
+			{
+				if (spell->m_CastItem)
+				{
+					if (((Player*)target)->InBattleGround())
+					{
+						return;
+					}
+					switch (spell->m_CastItem->GetEntry())
+					{
+					case 30065:
+						((Player*)target)->m_Player_ModelId[PLAYER_MODELID] = 5490;
+						target->SetDisplayId(5490);
+						return;
+					default:
+						break;
+					}
+				}
+			}
+			if (((Player*)target)->GetPlayerModelId() > 0)
+			{
+				target->SetDisplayId(((Player*)target)->m_Player_ModelId[PLAYER_MODELID]);
+				return;
+			}
+		}
         // special case (spell specific functionality)
         if (m_modifier.m_miscvalue == 0)
         {
