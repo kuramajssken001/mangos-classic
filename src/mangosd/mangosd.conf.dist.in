@@ -1557,3 +1557,14 @@ CharDelete.Method = 0
 CharDelete.MinLevel = 0
 CharDelete.KeepDays = 30
 World.Logn.On = 1
+#######################################################################    
+#		战场奖励物品
+#######################################################################
+BG.Item.On = 1
+BG.Win.Entry = 100310
+BG.Win.Count = 3
+BG.Lose.Entry = 100311
+BG.Lose.Count = 1
+BG.Kill.Item.On = 1
+BG.Kill.Item.Entry = 100309
+BG.Kill.Item.Count = 1

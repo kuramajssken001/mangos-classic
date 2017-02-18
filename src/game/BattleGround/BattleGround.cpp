@@ -33,6 +33,7 @@
 #include "Formulas.h"
 #include "GridNotifiersImpl.h"
 #include "Chat.h"
+#include "Config/Config.h"
 
 #include <cstdarg>
 
@@ -610,6 +611,11 @@ void BattleGround::EndBattleGround(Team winner)
 
     uint32 bgScoresWinner = TEAM_INDEX_NEUTRAL;
     uint64 battleground_id = 1;
+	uint32 BG_Item_On = sConfig.GetIntDefault("BG.Item.On", 0);
+	uint32 BG_Win_Entry = sConfig.GetIntDefault("BG.Win.Entry", 0);
+	uint32 BG_Win_Count = sConfig.GetIntDefault("BG.Win.Count", 0);
+	uint32 BG_Lose_Entry = sConfig.GetIntDefault("BG.Lose.Entry", 0);
+	uint32 BG_Lose_Count = sConfig.GetIntDefault("BG.Lose.Count", 0);
 
     if (winner == ALLIANCE)
     {
@@ -718,9 +724,19 @@ void BattleGround::EndBattleGround(Team winner)
         {
             RewardMark(plr, ITEM_WINNER_COUNT);
             RewardQuestComplete(plr);
+			if (BG_Item_On == 1)
+				{
+					RewardItem(plr, BG_Win_Entry, BG_Win_Count);
+				}
         }
         else
-            RewardMark(plr, ITEM_LOSER_COUNT);
+		{
+			 RewardMark(plr, ITEM_LOSER_COUNT);
+			 if (BG_Item_On == 1)
+				{
+					RewardItem(plr, BG_Lose_Entry, BG_Lose_Count);
+				}
+		}
 
         plr->CombatStopWithPets(true);
 
@@ -1431,6 +1447,24 @@ void BattleGround::HandleKillPlayer(Player* player, Player* killer)
 {
     // add +1 deaths
     UpdatePlayerScore(player, SCORE_DEATHS, 1);
+	uint32 BG_Kill_Item_On = sConfig.GetIntDefault("BG.Kill.Item.On", 0);
+	uint32 BG_Kill_Item_Entry = sConfig.GetIntDefault("BG.Kill.Item.Entry", 0);
+	uint32 BG_Kill_Item_Count = sConfig.GetIntDefault("BG.Kill.Item.Count", 0);
+
+	if (BG_Kill_Item_On == 1)
+	{
+		if (player)
+		{
+			if (player != killer)
+			{
+				killer->AddItem(BG_Kill_Item_Entry, BG_Kill_Item_Count);
+				if (killer->HasItemCount(BG_Kill_Item_Entry, BG_Kill_Item_Count, false))
+				{
+					player->DestroyItemCount(BG_Kill_Item_Entry, BG_Kill_Item_Count, true);
+				}				
+			}
+		}
+	}
 
     // add +1 kills to group and +1 killing_blows to killer
     if (killer)
